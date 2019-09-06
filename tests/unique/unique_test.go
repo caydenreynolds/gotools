@@ -1,13 +1,13 @@
 package unique
 
 import (
-	"gotools/uniques/unique/src"
+	"gotools/src/unique"
 	"testing"
 )
 
 //Ensures first value of
 func TestIncrStrFirstValue(t *testing.T) {
-	uniqueStr := src.Str{}
+	uniqueStr := unique.Str{}
 	println(len(uniqueStr.Bytes))
 
 	output := uniqueStr.Next()
@@ -19,7 +19,7 @@ func TestIncrStrFirstValue(t *testing.T) {
 
 func TestIncrStrFirst1000Values(t *testing.T) {
 	valueCount := 1000
-	uniqueStr := src.Str{}
+	uniqueStr := unique.Str{}
 	set := make(map[string]bool)
 
 	for i := 0; i < valueCount; i++ {
@@ -33,7 +33,7 @@ func TestIncrStrFirst1000Values(t *testing.T) {
 
 func TestIncrStrManyValues(t *testing.T) {
 	valueCount := 1000000
-	uniqueStr := src.Str{}
+	uniqueStr := unique.Str{}
 	set := make(map[string]bool)
 
 	for i := 0; i < valueCount; i++ {
