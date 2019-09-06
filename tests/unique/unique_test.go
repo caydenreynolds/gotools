@@ -8,7 +8,6 @@ import (
 //Ensures first value of
 func TestIncrStrFirstValue(t *testing.T) {
 	uniqueStr := unique.Str{}
-	println(len(uniqueStr.Bytes))
 
 	output := uniqueStr.Next()
 
