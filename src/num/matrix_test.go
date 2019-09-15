@@ -52,6 +52,23 @@ func TestNewMatrixFromSlice(t *testing.T) {
 	}
 }
 
+func TestCopyConstructor(t *testing.T) {
+	slice := [][]float64{
+		{1},
+	}
+	mat1 := Matrix{}.NewMatrixFromSlice(slice)
+	mat2 := mat1.CopyMatrix()
+	mat2.SetValue(0, 0, 0)
+
+	if !Approx(mat1.GetValue(0, 0), 1) {
+		t.Errorf("Expected matrix1 (0, 0) to be 1. Instead got %v", mat1.GetValue(0, 0))
+	}
+
+	if !Approx(mat2.GetValue(0, 0), 0) {
+		t.Errorf("Expected matrix (0, 0) to be 0. Instead got %v", mat2.GetValue(0, 0))
+	}
+}
+
 func TestMatrixSlice(t *testing.T) {
 	slice := [][]float64{
 		{1, 2, 3, 4, 5},

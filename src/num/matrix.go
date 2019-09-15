@@ -38,6 +38,10 @@ func (mat Matrix) NewMatrixFromSlice(values [][]float64) *Matrix {
 	return &mat
 }
 
+func (mat *Matrix) CopyMatrix() *Matrix {
+	return Matrix{}.NewMatrixFromSlice(mat.values)
+}
+
 func (mat *Matrix) Slice(m1, m2, n1, n2 int) *Matrix {
 	slices := mat.values[m1:m2]
 	newValues := make([][]float64, len(slices))
