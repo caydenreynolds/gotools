@@ -150,3 +150,24 @@ func (mat *Matrix) Rotate(clockwise bool) *Matrix {
 
 	return rotated
 }
+
+//Add two matrices
+func (mat *Matrix) Add(other *Matrix) *Matrix {
+	//Verify inputs
+	m, n := mat.Dimensions()
+	o, p := other.Dimensions()
+	if m != o || n != p {
+		panic(fmt.Sprintf("Cannot add matrices of different sizes. Matrixes are of sizes (%v, %v), and (%v, %v)",
+			m, n, o, p))
+	}
+
+	result := Matrix{}.NewMatrix(m, n)
+	for i := 0; i < m; i++ {
+		for j := 0; j < m; j++ {
+			result.SetValue(i, j, mat.GetValue(i, j)+other.GetValue(i, j))
+		}
+	}
+
+	return result
+
+}

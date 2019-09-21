@@ -213,3 +213,38 @@ func TestMatrixMultiply(t *testing.T) {
 		t.Errorf("Expected result matrix to have value 50. Instead got %v", prod.GetValue(1, 1))
 	}
 }
+
+func TestMatrixAdd(t *testing.T) {
+	//Create matrices
+	slice1 := [][]float64{
+		{1, 2},
+		{3, 4},
+	}
+	slice2 := [][]float64{
+		{5, 6},
+		{7, 8},
+	}
+	mat1 := Matrix{}.NewMatrixFromSlice(slice1)
+	mat2 := Matrix{}.NewMatrixFromSlice(slice2)
+	prod := mat1.Add(mat2)
+
+	if m, n := prod.Dimensions(); m != 2 || n != 2 {
+		t.Errorf("Expected result matrix to have dimensions (2, 2). Instead got (%v, %v)", m, n)
+	}
+
+	if !Approx(prod.GetValue(0, 0), 6) {
+		t.Errorf("Expected result matrix to have value 6. Instead got %v", prod.GetValue(0, 0))
+	}
+
+	if !Approx(prod.GetValue(0, 1), 8) {
+		t.Errorf("Expected result matrix to have value 8. Instead got %v", prod.GetValue(0, 1))
+	}
+
+	if !Approx(prod.GetValue(1, 0), 10) {
+		t.Errorf("Expected result matrix to have value 10. Instead got %v", prod.GetValue(1, 0))
+	}
+
+	if !Approx(prod.GetValue(1, 1), 12) {
+		t.Errorf("Expected result matrix to have value 12. Instead got %v", prod.GetValue(1, 1))
+	}
+}
