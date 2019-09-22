@@ -81,10 +81,6 @@ func (mat *Matrix) Multiply(other *Matrix) *Matrix {
 			slice2 := other.Slice(0, o, j, j+1)
 			value := slice1.DotProduct(slice2)
 			result.SetValue(i, j, value)
-
-			if value == 17 {
-				fmt.Println(slice1, slice2)
-			}
 		}
 	}
 
