@@ -38,7 +38,7 @@ func (mat Matrix) NewMatrixFromSlice(values [][]float64) *Matrix {
 	return &mat
 }
 
-func (mat *Matrix) CopyMatrix() *Matrix {
+func (mat *Matrix) Clone() *Matrix {
 	return Matrix{}.NewMatrixFromSlice(mat.values)
 }
 
@@ -147,6 +147,32 @@ func (mat *Matrix) Rotate(clockwise bool) *Matrix {
 	return rotated
 }
 
+//Expands an mx1 or 1xn vector into an mxfactor or factorxn matrix by copying elements
+func (mat *Matrix) ExpandVector(factor int) *Matrix {
+	m, n := mat.Dimensions()
+	var out *Matrix
+
+	if m == 1 {
+		out = Matrix{}.NewMatrix(factor, n)
+		for i := 0; i < factor; i++ {
+			for j := 0; j < n; j++ {
+				out.SetValue(i, j, mat.GetValue(0, j))
+			}
+		}
+	} else if n == 1 {
+		out = Matrix{}.NewMatrix(m, factor)
+		for i := 0; i < m; i++ {
+			for j := 0; j < factor; j++ {
+				out.SetValue(i, j, mat.GetValue(i, 0))
+			}
+		}
+	} else {
+		panic(fmt.Sprintf("Cannot expand non vector matrix. Matrix dimensions are (%v, %v)", m, n))
+	}
+
+	return out
+}
+
 //Add two matrices
 func (mat *Matrix) Add(other *Matrix) *Matrix {
 	//Verify inputs
@@ -159,11 +185,78 @@ func (mat *Matrix) Add(other *Matrix) *Matrix {
 
 	result := Matrix{}.NewMatrix(m, n)
 	for i := 0; i < m; i++ {
-		for j := 0; j < m; j++ {
+		for j := 0; j < n; j++ {
 			result.SetValue(i, j, mat.GetValue(i, j)+other.GetValue(i, j))
 		}
 	}
 
 	return result
+}
 
+//Multiply each element of two matrices
+func (mat *Matrix) MultiplyElements(other *Matrix) *Matrix {
+	//Verify inputs
+	m, n := mat.Dimensions()
+	o, p := other.Dimensions()
+	if m != o || n != p {
+		panic(fmt.Sprintf("Cannot add matrices of different sizes. Matrixes are of sizes (%v, %v), and (%v, %v)",
+			m, n, o, p))
+	}
+
+	result := Matrix{}.NewMatrix(m, n)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			result.SetValue(i, j, mat.GetValue(i, j)*other.GetValue(i, j))
+		}
+	}
+
+	return result
+}
+
+//Add two matrices
+func (mat *Matrix) Scale(scalar float64) *Matrix {
+	//Verify inputs
+	m, n := mat.Dimensions()
+
+	result := Matrix{}.NewMatrix(m, n)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			result.SetValue(i, j, mat.GetValue(i, j)*scalar)
+		}
+	}
+
+	return result
+}
+
+//Add two matrices
+func (mat *Matrix) Subtract(other *Matrix) *Matrix {
+	//Verify inputs
+	m, n := mat.Dimensions()
+	o, p := other.Dimensions()
+	if m != o || n != p {
+		panic(fmt.Sprintf("Cannot add matrices of different sizes. Matrixes are of sizes (%v, %v), and (%v, %v)",
+			m, n, o, p))
+	}
+
+	result := Matrix{}.NewMatrix(m, n)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			result.SetValue(i, j, mat.GetValue(i, j)-other.GetValue(i, j))
+		}
+	}
+
+	return result
+}
+
+func (mat *Matrix) Transpose() *Matrix {
+	m, n := mat.Dimensions()
+	output := Matrix{}.NewMatrix(n, m)
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			output.SetValue(j, i, mat.GetValue(i, j))
+		}
+	}
+
+	return output
 }

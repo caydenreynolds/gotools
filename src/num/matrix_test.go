@@ -57,7 +57,7 @@ func TestCopyConstructor(t *testing.T) {
 		{1},
 	}
 	mat1 := Matrix{}.NewMatrixFromSlice(slice)
-	mat2 := mat1.CopyMatrix()
+	mat2 := mat1.Clone()
 	mat2.SetValue(0, 0, 0)
 
 	if !Approx(mat1.GetValue(0, 0), 1) {
@@ -246,5 +246,98 @@ func TestMatrixAdd(t *testing.T) {
 
 	if !Approx(prod.GetValue(1, 1), 12) {
 		t.Errorf("Expected result matrix to have value 12. Instead got %v", prod.GetValue(1, 1))
+	}
+}
+
+func TestMatrix_Subtract(t *testing.T) {
+	//Create matrices
+	slice1 := [][]float64{
+		{1, 2},
+		{3, 4},
+	}
+	slice2 := [][]float64{
+		{5, 6},
+		{7, 8},
+	}
+	mat1 := Matrix{}.NewMatrixFromSlice(slice1)
+	mat2 := Matrix{}.NewMatrixFromSlice(slice2)
+	prod := mat1.Subtract(mat2)
+
+	if m, n := prod.Dimensions(); m != 2 || n != 2 {
+		t.Errorf("Expected result matrix to have dimensions (2, 2). Instead got (%v, %v)", m, n)
+	}
+
+	if !Approx(prod.GetValue(0, 0), -4) {
+		t.Errorf("Expected result matrix to have value -4. Instead got %v", prod.GetValue(0, 0))
+	}
+
+	if !Approx(prod.GetValue(0, 1), -4) {
+		t.Errorf("Expected result matrix to have value -4. Instead got %v", prod.GetValue(0, 1))
+	}
+
+	if !Approx(prod.GetValue(1, 0), -4) {
+		t.Errorf("Expected result matrix to have value -4. Instead got %v", prod.GetValue(1, 0))
+	}
+
+	if !Approx(prod.GetValue(1, 1), -4) {
+		t.Errorf("Expected result matrix to have value -4. Instead got %v", prod.GetValue(1, 1))
+	}
+}
+
+func TestMatrix_Transpose(t *testing.T) {
+	//Create matrix
+	slice1 := [][]float64{
+		{1, 2},
+		{3, 4},
+	}
+	mat := Matrix{}.NewMatrixFromSlice(slice1)
+	mat = mat.Transpose()
+
+	if m, n := mat.Dimensions(); m != 2 || n != 2 {
+		t.Errorf("Expected result matrix to have dimensions (2, 2). Instead got (%v, %v)", m, n)
+	}
+
+	if !Approx(mat.GetValue(0, 0), 1) {
+		t.Errorf("Expected result matrix to have value 1. Instead got %v", mat.GetValue(0, 0))
+	}
+
+	if !Approx(mat.GetValue(0, 1), 3) {
+		t.Errorf("Expected result matrix to have value 3. Instead got %v", mat.GetValue(0, 1))
+	}
+
+	if !Approx(mat.GetValue(1, 0), 2) {
+		t.Errorf("Expected result matrix to have value 2. Instead got %v", mat.GetValue(1, 0))
+	}
+
+	if !Approx(mat.GetValue(1, 1), 4) {
+		t.Errorf("Expected result matrix to have value 4. Instead got %v", mat.GetValue(1, 1))
+	}
+}
+
+func TestMatrix_ExpandVector(t *testing.T) {
+	slice := [][]float64{
+		{1, 2},
+	}
+	vect := Matrix{}.NewMatrixFromSlice(slice)
+	mat := vect.ExpandVector(2)
+
+	if m, n := mat.Dimensions(); m != 2 || n != 2 {
+		t.Errorf("Expected result matrix to have dimensions (2, 2). Instead got (%v, %v)", m, n)
+	}
+
+	if !Approx(mat.GetValue(0, 0), 1) {
+		t.Errorf("Expected result matrix to have value 1. Instead got %v", mat.GetValue(0, 0))
+	}
+
+	if !Approx(mat.GetValue(0, 1), 2) {
+		t.Errorf("Expected result matrix to have value 2. Instead got %v", mat.GetValue(0, 1))
+	}
+
+	if !Approx(mat.GetValue(1, 0), 1) {
+		t.Errorf("Expected result matrix to have value 1. Instead got %v", mat.GetValue(1, 0))
+	}
+
+	if !Approx(mat.GetValue(1, 1), 2) {
+		t.Errorf("Expected result matrix to have value 2. Instead got %v", mat.GetValue(1, 1))
 	}
 }
