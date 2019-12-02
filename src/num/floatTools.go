@@ -2,7 +2,7 @@ package num
 
 import "math"
 
-var epsilon = math.Nextafter(1.0, 2.0) - 1.0
+var EPSILON = math.Nextafter(1.0, 2.0) - 1.0
 
 //Find value of largest float in a slice
 func FindMax(floats []float64) float64 {
@@ -30,5 +30,5 @@ func FindMaxIndex(floats []float64) int {
 
 //Returns true if two floats are approximately equal, returns false otherwise
 func Approx(f1, f2 float64) bool {
-	return math.Abs(f1-f2) <= epsilon
+	return math.Abs(f1-f2) <= EPSILON
 }

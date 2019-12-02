@@ -284,6 +284,36 @@ func TestMatrix_Subtract(t *testing.T) {
 	}
 }
 
+func TestMatrix_Scale(t *testing.T) {
+	//Create matrices
+	slice1 := [][]float64{
+		{1, 2},
+		{3, 4},
+	}
+	mat1 := Matrix{}.NewMatrixFromSlice(slice1)
+	prod := mat1.Scale(1 / 10.0)
+
+	if m, n := prod.Dimensions(); m != 2 || n != 2 {
+		t.Errorf("Expected result matrix to have dimensions (2, 2). Instead got (%v, %v)", m, n)
+	}
+
+	if !Approx(prod.GetValue(0, 0), 0.1) {
+		t.Errorf("Expected result matrix to have value 0.1. Instead got %v", prod.GetValue(0, 0))
+	}
+
+	if !Approx(prod.GetValue(0, 1), 0.2) {
+		t.Errorf("Expected result matrix to have value 0.2. Instead got %v", prod.GetValue(0, 1))
+	}
+
+	if !Approx(prod.GetValue(1, 0), 0.3) {
+		t.Errorf("Expected result matrix to have value 0.3. Instead got %v", prod.GetValue(1, 0))
+	}
+
+	if !Approx(prod.GetValue(1, 1), 0.4) {
+		t.Errorf("Expected result matrix to have value 0.4. Instead got %v", prod.GetValue(1, 1))
+	}
+}
+
 func TestMatrix_Transpose(t *testing.T) {
 	//Create matrix
 	slice1 := [][]float64{
