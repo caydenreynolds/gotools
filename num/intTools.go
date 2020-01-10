@@ -1,5 +1,7 @@
 package num
 
+import "math"
+
 func Min(a, b int) int {
 	if a < b {
 		return a
@@ -14,4 +16,8 @@ func Max(a, b int) int {
 	} else {
 		return a
 	}
+}
+
+func Abs(n int) int {
+	return int(math.Abs(float64(n)))
 }
