@@ -17,7 +17,7 @@ func TestIntMod(t *testing.T) {
 		t.Errorf("Expected 5 mod 5 to be 0. Instead got %v", IntMod(5, 5))
 	}
 
-	if IntMod(-22, -5) != 2 {
-		t.Errorf("Expected -22 mod -5 to be 2. Instead got %v", IntMod(-22, -5))
+	if IntMod(-199, 200) != 1 {
+		t.Errorf("Expected -199 mod 200 to be 1. Instead got %v", IntMod(-199, 200))
 	}
 }
