@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+//Singleton pattern logging
 var logFile *os.File
 
 func StartLogger(path string) {
@@ -12,7 +13,7 @@ func StartLogger(path string) {
 		Error("Cannot start a new logger. Instance already running")
 	}
 
-	logFile, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 7777)
+	logFile, err := os.Create(path)
 	if err != nil {
 		panic("Cannot open log file!")
 	}
@@ -32,18 +33,32 @@ func CloseLogger() {
 
 func CheckFatal(e error) {
 	if e != nil {
-		log.Fatalf("Fatal: %v", e)
+		log.Fatalf("Fatal: %v\n", e)
+	}
+}
+
+func CheckFatalMessage(e error, message string) {
+	if e != nil {
+		log.Fatalf("Fatal: %v. %s\n", e, message)
 	}
 }
 
 func Fatal(message string) {
-	log.Println("Fatal: " + message)
+	log.Fatal("Fatal: " + message)
 }
 
-func CheckError(e error) {
+func CheckError(e error) bool {
 	if e != nil {
-		log.Fatalf("Error: %v", e)
+		log.Printf("Error: %v\n", e)
 	}
+	return e != nil
+}
+
+func CheckErrorMessage(e error, message string) bool {
+	if e != nil {
+		log.Printf("Error: %v. %s\n", e, message)
+	}
+	return e != nil
 }
 
 func Error(message string) {
