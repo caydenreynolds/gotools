@@ -49,22 +49,22 @@ func Fatal(message string) {
 
 func CheckError(e error) bool {
 	if e != nil {
-		log.Printf("Error: %v\n", e)
+		go log.Printf("Error: %v\n", e)
 	}
 	return e != nil
 }
 
 func CheckErrorMessage(e error, message string) bool {
 	if e != nil {
-		log.Printf("Error: %v. %s\n", e, message)
+		go log.Printf("Error: %v. %s\n", e, message)
 	}
 	return e != nil
 }
 
 func Error(message string) {
-	log.Println("Error: " + message)
+	go log.Println("Error: " + message)
 }
 
 func Info(message string) {
-	log.Println("Info: " + message)
+	go log.Println("Info: " + message)
 }
