@@ -62,11 +62,13 @@ func CloseLogger() {
 	}
 	singletonFileLock.Lock()
 	defer singletonFileLock.Unlock()
-	singletonClose <- true // Shut down our logging goroutines
 	close(singletonClose)
 	if singletonNewFileTicker != nil {
 		singletonNewFileTicker.Stop()
 	}
+	hours, minutes, seconds := time.Now().UTC().Clock()
+	message := fmt.Sprintf("[%d:%d:%d] {%s} %s\n", hours, minutes, seconds, INFO, "Logger is closing. Is the program shutting down?")
+	_, _ = singletonLogFile.WriteString(message)
 	err := singletonLogFile.Close()
 	if err != nil {
 		panic(err)
@@ -159,7 +161,7 @@ func openNewFileDaily() {
 	}
 	for {
 		select {
-		case <-singletonClose:
+		case _, _ = <-singletonClose:
 			return
 		case _ = <-singletonNewFileTicker.C:
 			openFile()
