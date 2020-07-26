@@ -137,7 +137,7 @@ func CheckErrorMessage(e error, message string) bool {
 func CheckErrorMessagef(e error, message string, values ...interface{}) bool {
 	message = fmt.Sprintf(message, values...)
 	if e != nil {
-		go writeToFile(FATAL, "%s: %s", e.Error(), message)
+		go writeToFile(ERROR, "%s: %s", e.Error(), message)
 		return true
 	}
 	return false
