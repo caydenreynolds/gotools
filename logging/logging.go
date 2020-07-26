@@ -92,6 +92,11 @@ func Fatal(message string) {
 	os.Exit(1)
 }
 
+func Fatalf(message string, values ...interface{}) {
+	go writeToFile(FATAL, fmt.Sprintf(message,values...))
+	os.Exit(1)
+}
+
 func CheckFatal(e error) {
 	if e != nil {
 		writeToFile(FATAL, e.Error())
@@ -116,6 +121,10 @@ func CheckFatalMessagef(e error, message string, values ...interface{}) {
 
 func Error(message string) {
 	go writeToFile(ERROR, message)
+}
+
+func Errorf(message string, values ...interface{}) {
+	go writeToFile(ERROR, fmt.Sprintf(message,values...))
 }
 
 func CheckError(e error) bool {
