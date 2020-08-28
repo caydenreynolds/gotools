@@ -163,7 +163,7 @@ func Infof(message string, values ...interface{}) {
 
 func openNewFileDaily() {
 	// Change the file every day, so we store a month's worth of logs
-	dailyDuration, err := time.ParseDuration("1d")
+	dailyDuration, err := time.ParseDuration("24h")
 	singletonNewFileTicker = time.NewTicker(dailyDuration)
 	if err != nil {
 		panic(err)
